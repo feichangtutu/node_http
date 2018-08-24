@@ -25,6 +25,7 @@ class Server{
 		let {pathname} = url.parse(req.url)
 		if (pathname === '/favicon.ico') return res.end();//处理favicon请求
 		let p = path.join(dir, pathname);
+		// let p = path.join(__dirname,'..',dir,pathname)
 		try {
 			// 判断当前路径是文件 还是文件夹
 			let statObj = await stat(p);
@@ -38,6 +39,12 @@ class Server{
 					// 因为点击第二层时 需要带上第一层的路径，所有拼接上就ok了
 					href:path.join(pathname,item)
 				}))
+				console.log(dirs,'dirs')
+				//[ { name: 'a', href: '/a' },
+				// { name: 'test.txt', href: '/test.txt' },
+				// { name: 'index.css', href: '/index.css' },
+				// { name: 'index.html', href: '/index.html' } ]
+				
 				// ejs模板渲染出文件目录展示
 				let str = ejs.render(this.template, {
 					name: `Index of ${pathname}`,
@@ -63,16 +70,16 @@ class Server{
 	sendFile(req, res, statObj, p) {
 		// 设置缓存，如果文件以及打开过了 要下一次多少秒内不要再次访问了
 		// 下次再访问服务器的时候 要使用对比缓存
-		if (this.cache(req, res, statObj, p)){
-			res.statusCode = 304;
-			return res.end();
-		}
-		if (this.range(req, res, statObj, p)) return
+		// if (this.cache(req, res, statObj, p)){
+		// 	res.statusCode = 304;
+		// 	return res.end();
+		// }
+		// if (this.range(req, res, statObj, p)) return
 		res.setHeader('Content-Type', mime.getType(p) + ';charset=utf8');
-		let transform = this.gzip(req, res, statObj, p)
-		if (transform){ // 返回一个压缩后的压缩流
-			return fs.createReadStream(p).pipe(transform).pipe(res);
-		}
+		// let transform = this.gzip(req, res, statObj, p)
+		// if (transform){ // 返回一个压缩后的压缩流
+		// 	return fs.createReadStream(p).pipe(transform).pipe(res);
+		// }
 		fs.createReadStream(p).pipe(res);
 	}
 	start(){

@@ -15,15 +15,15 @@ commander
 let server = new Server();
 server.start(); // 开启服务
 
-// let config = require('../src/config');
-// commander = {...config,...commander}
-// // 操作系统不同 打开web服务的方式就不同
-// // 再我们的服务中 启动一个子进程 执行一条命令
-//
-// let os = require('os');
-// let {exec} = require('child_process')
-// if(os.platform() === 'win32'){
-//   exec(`start http://${commander.host}:${commander.port}`);
-// }else{
-//   exec(`open http://${commander.host}:${commander.port}`);
-// }
+let config = require('../src/config');
+commander = {...config,...commander}
+// 操作系统不同 打开web服务的方式就不同
+// 再我们的服务中 启动一个子进程 执行一条命令
+
+let os = require('os');
+let {exec} = require('child_process')
+if(os.platform() === 'win32'){
+  exec(`start http://${commander.host}:${commander.port}`);
+}else{
+  exec(`open http://${commander.host}:${commander.port}`);
+}
