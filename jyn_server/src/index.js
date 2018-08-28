@@ -42,7 +42,7 @@ class Server{
 				console.log(dirs,'dirs')
 				//[ { name: 'a', href: '/a' },
 				// { name: 'test.txt', href: '/test.txt' },
-				// { name: 'index.css', href: '/index.css' },
+				// { name: 'config.js', href: '/config.js' },
 				// { name: 'index.html', href: '/index.html' } ]
 				
 				// ejs模板渲染出文件目录展示
